@@ -5,13 +5,6 @@
 
 #define GRID_CELL_SIZE 97
 
-typedef enum Colors {
-    _0,
-    _2,
-    _4,
-    _8,
-};
-
 /* ================================================================ */
 
 void board_init(size_t board[4][4]);

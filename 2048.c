@@ -5,6 +5,14 @@ static SDL_Color colors[] = {
     {238, 228, 218, 255},
     {237, 224, 200, 255},
     {242, 177, 121, 255},
+    {245, 149, 99, 255}, // 16
+    {246, 124, 95, 255}, // 32
+    {246, 94, 59, 255},
+    {237, 207, 114, 255},
+    {237, 204, 97, 255},
+    {237, 200, 80, 255},
+    {237, 197, 63, 255},
+    {237, 194, 46, 255}
 };
 
 /* ================================================================ */
@@ -29,6 +37,19 @@ void board_init(size_t board[4][4]) {
             break ;
         }
     }
+
+    Manager_insert("0", colors + 0);
+    Manager_insert("2", colors + 1);
+    Manager_insert("4", colors + 2);
+    Manager_insert("8", colors + 3);
+    Manager_insert("16", colors + 4);
+    Manager_insert("32", colors + 5);
+    Manager_insert("64", colors + 6);
+    Manager_insert("128", colors + 7);
+    Manager_insert("256", colors + 8);
+    Manager_insert("512", colors + 9);
+    Manager_insert("1024", colors + 10);
+    Manager_insert("2048", colors + 11);
 }
 
 /* ================================================================ */
@@ -277,11 +298,18 @@ int Board_draw(const size_t _board[SIZE][SIZE], Text* _text[SIZE][SIZE]) {
 
             SDL_Rect cell = {j * GRID_CELL_SIZE + x_offset * (j + 1), i * GRID_CELL_SIZE + x_offset * (i + 1), GRID_CELL_SIZE, GRID_CELL_SIZE};
 
-            sprintf(buffer, "%d", _board[i][j]);
-            Text_update(_text[i][j], buffer);
+            sprintf(buffer, "%ld", _board[i][j]);
+	    Text_update(_text[i][j], buffer);
+	    if (_board[i][j] >= 8) {
+		Text_set_color(_text[i][j], &(SDL_Color) {255, 255, 255, 255});
+	    }
+	    else {
+		    Text_set_color(_text[i][j], &(SDL_Color) {0, 0, 0, 255});
+	    }
 
+	    SDL_Color* color = Manager_lookup(buffer);
             /* === Setting the color === */
-            SDL_SetRenderDrawColor(get_context(), colors[_board[i][j] - (_board[i][j] - 1)].r, colors[_board[i][j] - (_board[i][j] - 1)].g, colors[_board[i][j] - (_board[i][j] - 1)].b, colors[_board[i][j] - (_board[i][j] - 1)].a);
+            SDL_SetRenderDrawColor(get_context(), color->r, color->g, color->b, color->a);
 
             SDL_RenderFillRect(get_context(), &cell);
 

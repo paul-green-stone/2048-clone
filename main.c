@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
     for (size_t i = 0; i < SIZE; i++) {
         for (size_t j = 0; j < SIZE; j++) {
-            text[i][j] = Text_new(ctx, font, &(SDL_Color) {0, 0, 0, 255}, "");
+            text[i][j] = Text_new(ctx, font, &(SDL_Color) {119, 110, 101, 255}, "");
         }
     }
 
