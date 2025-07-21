@@ -17,6 +17,8 @@ int main(int argc, char** argv) {
     };
 
     Text* text[SIZE][SIZE];
+    Text* title = NULL;
+    Text* score = NULL;
 
     board_init(board);
     board_print(board);
@@ -29,6 +31,8 @@ int main(int argc, char** argv) {
     SDL_Event event;
     SDL_Renderer* ctx = get_context();
     TTF_Font* font = TTF_OpenFont("8bitOperatorPlus8-Regular.ttf", 64);
+
+    title = Text_new(ctx, font, &(SDL_Color) {0, 0, 0, 255}, "2048");
 
     for (size_t i = 0; i < SIZE; i++) {
         for (size_t j = 0; j < SIZE; j++) {
@@ -88,6 +92,9 @@ int main(int argc, char** argv) {
         SDL_RenderClear(ctx);
 
         Board_draw(board, text);
+	
+	SDL_RenderSetViewport(ctx, NULL);
+	Text_draw(title, &(SDL_Rect){16, 16 + title->height, title->width, title->height});
 
         /* ================ */
         /* === Rendering == */
@@ -103,6 +110,9 @@ int main(int argc, char** argv) {
     }
 
     /* ======== */
+    Text_destroy(&title);
+    Text_destroy(&score);
+
     TTF_CloseFont(font);
 
     App_quit();

@@ -286,7 +286,7 @@ int Board_draw(const size_t _board[SIZE][SIZE], Text* _text[SIZE][SIZE]) {
 
     SDL_GetWindowSize(get_window(), &width, &height);
     board.x = width / 2 - board.w / 2;
-    board.y = height / 2 - board.h / 2;
+    board.y = height - (board.h + 32);
     
     SDL_RenderSetViewport(get_context(), &board);
 
@@ -311,28 +311,7 @@ int Board_draw(const size_t _board[SIZE][SIZE], Text* _text[SIZE][SIZE]) {
             /* === Setting the color === */
             SDL_SetRenderDrawColor(get_context(), color->r, color->g, color->b, color->a);
 
-            SDL_RenderFillRect(get_context(), &cell);
-
-            // if (_board[i][j] == 0) {
-            //     SDL_SetRenderDrawColor(get_context(), 238, 228, 218, 96);
-            //     SDL_RenderFillRect(get_context(), &cell);
-            // }
-            // else if (_board[i][j] == 2) {
-            //     SDL_SetRenderDrawColor(get_context(), 238, 228, 218, 255);
-            //     SDL_RenderFillRect(get_context(), &cell);
-            // }
-            // else if (_board[i][j] == 4) {
-            //     SDL_SetRenderDrawColor(get_context(), 237, 224, 200, 255);
-            //     SDL_RenderFillRect(get_context(), &cell);
-            // }
-            // else if (_board[i][j] == 8) {
-            //     SDL_SetRenderDrawColor(get_context(), 242, 177, 121, 255);
-                
-            // }
-            // else {
-            //     SDL_SetRenderDrawColor(get_context(), 238, 228, 218, 96);
-            //     SDL_RenderFillRect(get_context(), &cell);
-            // }
+            SDL_RenderFillRect(get_context(), &cell); 
 
             /* === Drawing text === */
             if (_board[i][j] != 0) {
@@ -340,8 +319,6 @@ int Board_draw(const size_t _board[SIZE][SIZE], Text* _text[SIZE][SIZE]) {
             }
         }
     } 
-
-    SDL_RenderSetViewport(NULL, &board);
 }
 
 /* ================================================================ */
