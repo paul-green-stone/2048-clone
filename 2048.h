@@ -17,7 +17,7 @@ int Board_is_won(const size_t board[SIZE][SIZE]);
 
 int Board_can_move(const size_t board[SIZE][SIZE]);
 
-int Board_move(size_t board[SIZE][SIZE], int direction);
+int Board_move(size_t board[SIZE][SIZE], int direction, int* score);
 
 int Board_draw(const size_t board[SIZE][SIZE], Text* text[SIZE][SIZE]);
 

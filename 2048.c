@@ -20,7 +20,14 @@ static SDL_Color colors[] = {
 void board_init(size_t board[4][4]) {
 
     int t = 0, r, c;
+    static int _t = 0;
     /* ======== */
+
+    for (size_t i = 0; i < SIZE; i++) {
+        for (size_t j = 0; j < SIZE; j++) {
+            board[i][j] = 0;
+        }
+    }
 
     while (1) {
 
@@ -38,18 +45,22 @@ void board_init(size_t board[4][4]) {
         }
     }
 
-    Manager_insert("0", colors + 0);
-    Manager_insert("2", colors + 1);
-    Manager_insert("4", colors + 2);
-    Manager_insert("8", colors + 3);
-    Manager_insert("16", colors + 4);
-    Manager_insert("32", colors + 5);
-    Manager_insert("64", colors + 6);
-    Manager_insert("128", colors + 7);
-    Manager_insert("256", colors + 8);
-    Manager_insert("512", colors + 9);
-    Manager_insert("1024", colors + 10);
-    Manager_insert("2048", colors + 11);
+    if (_t == 0) {
+        Manager_insert("0", colors + 0);
+        Manager_insert("2", colors + 1);
+        Manager_insert("4", colors + 2);
+        Manager_insert("8", colors + 3);
+        Manager_insert("16", colors + 4);
+        Manager_insert("32", colors + 5);
+        Manager_insert("64", colors + 6);
+        Manager_insert("128", colors + 7);
+        Manager_insert("256", colors + 8);
+        Manager_insert("512", colors + 9);
+        Manager_insert("1024", colors + 10);
+        Manager_insert("2048", colors + 11);
+    }
+
+    _t++;
 }
 
 /* ================================================================ */
@@ -147,7 +158,7 @@ int Board_can_move(const size_t board[SIZE][SIZE]) {
 
 /* ================================================================ */
 
-int Board_move(size_t board[SIZE][SIZE], int dir) {
+int Board_move(size_t board[SIZE][SIZE], int dir, int* score) {
     int moved = 0;
 
     // Store the current board state
@@ -172,6 +183,7 @@ int Board_move(size_t board[SIZE][SIZE], int dir) {
                     }
                     if (k > 0 && board[k - 1][j] == board[k][j]) {
                         board[k - 1][j] *= 2;
+                        (*score) += board[k - 1][j];
                         board[k][j] = 0;
                         moved = 1;
                     }
@@ -194,6 +206,7 @@ int Board_move(size_t board[SIZE][SIZE], int dir) {
                     }
                     if (k < SIZE - 1 && board[k + 1][j] == board[k][j]) {
                         board[k + 1][j] *= 2;
+                        (*score) += board[k + 1][j];
                         board[k][j] = 0;
                         moved = 1;
                     }
@@ -216,6 +229,7 @@ int Board_move(size_t board[SIZE][SIZE], int dir) {
                     }
                     if (k > 0 && board[i][k - 1] == board[i][k]) {
                         board[i][k - 1] *= 2;
+                        (*score) += board[i][k - 1];
                         board[i][k] = 0;
                         moved = 1;
                     }
@@ -238,6 +252,7 @@ int Board_move(size_t board[SIZE][SIZE], int dir) {
                     }
                     if (k < SIZE - 1 && board[i][k + 1] == board[i][k]) {
                         board[i][k + 1] *= 2;
+                        (*score) += board[i][k + 1];
                         board[i][k] = 0;
                         moved = 1;
                     }
